@@ -72,6 +72,9 @@ def get_reservation_state(table):
 def main():
     st.title("buzz予約表一覧")
 
+    st.write("東京のbuzzダンススタジオの予約表一覧です。日付を入力するとのその日の空き状況が確認できます。")
+    st.write("広さの目安：5人ほどなら15～20㎡、10人なら25～30㎡、それ以上なら40㎡以上")
+
     selected_date = st.date_input("日付を選択してください")
 
     if st.button("予約表一覧を取得する"):
