@@ -94,12 +94,10 @@ def main():
             all_specs = []
             for room in soup.find_all(class_='studio_item'):
                 room_name = room.find(class_='studio_title').text.replace(' ', '')
-                specs = [i.text.split() for i in room.find(class_='studio_spec').find_all('span')]
-                spec_name = [i[0] for i in specs]
-                specs = [i[1] for i in specs]
+                spec = room.find(class_='studio_spec').find('span').text.split()[1]
                 room_names.append(room_name)
-                all_specs.append(specs)
-            spec_table = pd.DataFrame(all_specs, index=room_names, columns=spec_name).T
+                all_specs.append(spec)
+            spec_table = pd.DataFrame(all_specs, index=room_names, columns=['広さ']).T
             st.write(spec_table)
                     
 
