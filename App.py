@@ -70,7 +70,7 @@ def get_reservation_state(table):
     return marked_table
 
 def main():
-    st.title("buzz 予約一覧")
+    st.title("buzz予約表一覧")
 
     selected_date = st.date_input("日付を選択してください")
 
@@ -88,6 +88,13 @@ def main():
             reservation_table = pd.DataFrame(reservation_state, columns=room_names).set_index('Time').T
 
             st.write(reservation_table)
+
+            for room in soup.find_all(class_='studio_item'):
+                spec = room.find(class_='studio_title').text.replace(' ', '') + " "
+                for i in room.find(class_='studio_spec').find_all('span'):
+                    spec += i.text
+                    spec += ' '
+                st.write(spec)
 
 if __name__ == "__main__":
     main()
