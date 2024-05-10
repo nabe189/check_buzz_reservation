@@ -78,11 +78,12 @@ def main():
 
     if st.button("予約表一覧を取得する"):
         for studio_name, studio_url in buzz_tokyo:
-            st.markdown(f"[{studio_name}]({studio_url}): {soup.find(class_='top_info_catch').text}")
-
             table_url = f'{studio_url}/{selected_date}#time_table'
             response = requests.get(table_url)
             soup = BeautifulSoup(response.text, "html.parser")
+
+            # スタジオ名/アクセスの表示
+            st.markdown(f"[{studio_name}]({studio_url}): {soup.find(class_='top_info_catch').text}")
 
             # 予約表の一覧
             table = soup.find('table', class_="studio_all_reserve_time_table")
