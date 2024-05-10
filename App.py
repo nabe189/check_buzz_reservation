@@ -90,7 +90,7 @@ def main():
             st.write(reservation_table)
 
             for room in soup.find_all(class_='studio_item'):
-                room_name = room.find(class_='studio_title').text.replace(' ', '')
+                spec = room.find(class_='studio_title').text.replace(' ', '')
                 for i in room.find(class_='studio_spec').find_all('span'):
                     spec += i.text
                     spec += ' '
