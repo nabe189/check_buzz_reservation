@@ -82,19 +82,24 @@ def main():
             response = requests.get(table_url)
             soup = BeautifulSoup(response.text, "html.parser")
 
+            # 予約表の一覧
             table = soup.find('table', class_="studio_all_reserve_time_table")
-            room_names = ['Time'] + [div.text for div in table.find_all('div', class_="studio_reserve_time_table_studio_name")]
+            table_columns = ['Time'] + [div.text for div in table.find_all('div', class_="studio_reserve_time_table_studio_name")]
             reservation_state = get_reservation_state(table)
-            reservation_table = pd.DataFrame(reservation_state, columns=room_names).set_index('Time').T
-
+            reservation_table = pd.DataFrame(reservation_state, columns=table_columns).set_index('Time').T
             st.write(reservation_table)
-
+            
+            # 部屋のスペック
+            room_names = []
+            all_specs = []
             for room in soup.find_all(class_='studio_item'):
-                spec = room.find(class_='studio_title').text.replace(' ', '')
-                for i in room.find(class_='studio_spec').find_all('span'):
-                    spec += i.text
-                    spec += ' '
-                print(spec)
+                room_name = room.find(class_='studio_title').text.replace(' ', '')
+                specs = [i.text for i in room.find(class_='studio_spec').find_all('span')]
+                room_names.append(room_name)
+                all_specs.append(specs)
+            spec_table = pd.DataFrame(all_specs, index=room_names)
+            st.write(spec_table)
+                    
 
 if __name__ == "__main__":
     main()
