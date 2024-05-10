@@ -76,16 +76,16 @@ def main():
 
     if st.button("予約表一覧を取得する"):
         for studio_name, studio_url in buzz_tokyo:
-            st.write(studio_name)
+            st.markdown(f"[{studio_name}]({studio_url})")
 
             table_url = f'{studio_url}/{selected_date}#time_table'
             response = requests.get(table_url)
             soup = BeautifulSoup(response.text, "html.parser")
 
             table = soup.find('table', class_="studio_all_reserve_time_table")
-            studio_names = ['Time'] + [div.text for div in table.find_all('div', class_="studio_reserve_time_table_studio_name")]
+            room_names = ['Time'] + [div.text for div in table.find_all('div', class_="studio_reserve_time_table_studio_name")]
             reservation_state = get_reservation_state(table)
-            reservation_table = pd.DataFrame(reservation_state, columns=studio_names).set_index('Time').T
+            reservation_table = pd.DataFrame(reservation_state, columns=room_names).set_index('Time').T
 
             st.write(reservation_table)
 
