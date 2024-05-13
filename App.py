@@ -70,6 +70,7 @@ def get_reservation_state(table):
     return marked_table
 
 def main():
+    st.set_page_config(layout="wide")
     st.title("BUZZ予約表一覧")
 
     st.write("東京のBUZZスタジオの予約表一覧です。日付を入力するとのその日の空き状況が確認できます。5人ほどなら15～20㎡、10人なら25～30㎡、それ以上なら40㎡以上が広さの目安となります。")
